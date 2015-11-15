@@ -1,0 +1,21 @@
+<div class="tool-wrap" ng-controller="MainCtrl">
+  <div class="tool-wrap" ng-controller="toolCtrl">tool</div>
+  <div class="layer-wrap" ng-controller="layerCtrl">
+    layer:<br>
+    <div class="layer-info" ng-repeat="layer in layers">
+      图层id{{layer.layerId}}<br>
+      图层名{{layer.layerName}}<br>
+      图层类型{{layer.layerType}}
+    </div>
+  </div>
+  <div class="frame-wrap" ng-controller="frameCtrl">
+    layer:<br>
+    <div class="frame-info" ng-repeat="frame in frames">
+      帧id{{frame.frameId}}<br>
+      帧时间{{frame.timestamp}}<br>
+      帧内容{{frame.frameContent}}
+    </div>
+  </div>
+  <div class="symbol-wrap" ng-controller="symbolCtrl">symbol</div>
+  <div class="edit-wrap" ng-controller="editCtrl">edit</div>
+</div>
