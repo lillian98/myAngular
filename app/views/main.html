@@ -1,6 +1,168 @@
+<div class="full-screen" ng-controller="MainCtrl">
+  <!--s 顶部按钮-->
+  <div class="top-bar">
+    <a href="#nolink" ng-click="newFile()">新建</a>
+    <a href="#nolink" ng-click="openFile()">打开</a>
+    <a href="#nolink" ng-click="saveFile()">保存</a>
+  </div>
+  <!--e 顶部按钮-->
+  <!--s 场景-->
+  <div class="scene"></div>
+  <!--e 场景-->
+  <!--s 工具栏-->
+  <div class="tool-bar">
+    <a id="toolChoice" href="#nolink" ng-click="toolChoose()"><img src="images/tool-1.jpg"/></a>
+    <a id="toolChange" href="#nolink" class="current" ng-click="toolTransform()"><img src="images/tool-2.jpg"/></a>
+    <a id="toolinsetPic" href="#nolink" ng-click="toolInsertPic()"><img src="images/tool-4.jpg"/></a>
+    <a id="toolText" href="#nolink" ng-click="toolInsertText()"><img src="images/tool-3.jpg"/></a>
+  </div>
+  <!--e 工具栏-->
+  <!--s 属性-->
+  <div class="attr-bar">
+    <!--s 帧属性-->
+    <div class="attr-frame attr-wrap" ng-show="canShowFrame">
+      <div class="attr-area">
+        <div class="attr-title">帧属性</div>
+        <div class="attr-value">
+          <p>图层: <span id="frame_from_layer"></span></p>
+          <p>帧: <span id="frame_number"></span></p>
+        </div>
+      </div>
+      <div class="attr-area">
+        <div class="attr-title">帧操作</div>
+        <a href="#nolink" id="inset_frame">插入帧</a>
+        <a href="#nolink" id="delete_frame">删除帧</a>
+      </div>
+      <div class="attr-area">
+        <div class="attr-title">关键帧操作</div>
+        <a href="#nolink" id="inset_key_frame">插入关键帧</a>
+        <a href="#nolink" id="delete_key_frame">清除关键帧</a>
+        <a href="#nolink" id="inset_empty_key_frame">空白关键帧</a>
+        <a href="#nolink" id="delete_empty_key_frame">清除空白关键帧</a>
+      </div>
+      <div class="attr-area">
+        <div class="attr-title">动画操作</div>
+        <a href="#nolink" id="inset_action">插入补间</a>
+        <a href="#nolink" id="delete_action">清除补间</a>
+      </div>
+
+    </div>
+    <!--e 帧属性-->
+    <!--s 元件属性-->
+    <div class="attr-symbol attr-wrap" ng-show="canShowSymbol">
+      <div class="attr-area">
+        <div class="attr-title">元件属性</div>
+        <div class="attr-value">
+          <p>元件: <span id="symbol_from_layer"></span></p>
+          <p>帧: <span id="symbol_frame"></span></p>
+        </div>
+      </div>
+      <div class="attr-area">
+        <div class="attr-title">帧操作</div>
+        <a href="#nolink" id="">插入帧</a>
+        <a href="#nolink" id="">删除帧</a>
+      </div>
+
+    </div>
+    <!--e 元件属性-->
+  </div>
+  <!--e 属性-->
+  <!--s 中央-->
+  <div class="mid-area">
+    <!--s 时间轴-->
+    <div class="time-line">
+      <div class="time-title">
+        <img style="margin:8px 8px 0 152px" src="images/eyes.png"/>
+        <img src="images/lock.png"/>
+        <!--s 时间刻度-->
+        <div class="timeline-numb-show">
+          <div class="time-numb" >
+            <span ng-repeat="n in [] | range:101">{{n*5}}</span>
+          </div>
+
+        </div>
+        <!--e 时间刻度-->
+      </div>
+      <div class="time-area">
+        <div class="left-area" ng-controller="layerCtrl">
+          <!--s 层-->
+          <div ng-repeat="layer in layers">
+            <div class="layer-contrl" id="layerRow{{layer.layerId}}">
+              <img src="images/layer.png">
+              <div><input type="text" value="{{layer.layerName}}"></div>
+              <a href="#nolink" class=""></a>
+              <a href="#nolink" class=""></a>
+            </div>
+          </div>
+          <!--e 层-->
+
+        </div>
+        <div class="right-area" ng-controller="frameCtrl">
+          <!--s 帧控制-->
+          <div class="frame">
+            <div ng-repeat="layer in layers">
+              <div class="frame-contrl" id="dataRow{{layer.layerId}}">
+                <span ng-repeat="n in [] | range:501" id="{{layer.layerId}}_{{n}}"></span>
+              </div>
+              </div>
+          </div>
+          <!--e 帧控制-->
+        </div>
+      </div>
+    </div>
+    <!--e 时间轴-->
+    <!--s 时间轴控制-->
+    <div class="time-contrl">
+      <a id="newLayer" href="#nolink"><img src="images/newlayer.png"/></a>
+      <a id="layerUp" href="#nolink"><img src="images/up.png"/></a>
+      <a id="layerDown" href="#nolink"><img src="images/down.png"/></a>
+      <a id="layerDelet" href="#nolink"><img src="images/delet.png"/></a>
+      <div style="float:left; margin-left:112px;">
+        <a id="frameLeft" href="#nolink"><img src="images/left.png"/></a>
+        <div class="frame-slide">
+          <div></div>
+        </div>
+        <a id="frameRight" href="#nolink"><img src="images/right.png"/></a>
+      </div>
+    </div>
+    <!--e 时间轴控制-->
+    <!--s 画布-->
+    <div class="my-canvas">
+      <!-- S 添加的元件 -->
+      <div class="stage">
+
+      </div>
+      <!-- E 添加的元件 -->
+      <!-- S 透明操作层：当图层被锁定或不可见时改变层级 -->
+      <div class="stage-operate">
+
+      </div>
+      <!-- E 透明操作层：当图层被锁定或不可见时改变层级 -->
+      <!-- S 其他图层的参考，置于最底层不可操作 -->
+      <div class="stage-reference">
+
+      </div>
+      <!-- E 其他图层的参考，置于最底层不可操作 -->
+    </div>
+    <!--e 画布-->
+  </div>
+  <!--e 中央-->
+</div>
+<!--s 浮层-->
+<div class ="float-board"></div>
+<!--s 图片地址-->
+<div id="picUrlBoard">
+  <strong class="float-title">插入图片</strong>
+  <a class="closeMyself" href="#nolink"></a>
+  <p>图片地址<input type="text" value="http://www.baidu.com/img/bd_logo1.png"></p>
+  <p class="float-button"><a href="#nolink" id="insetPicButton">确认</a><a href="#nolink" id="cancelButton">取消</a></p>
+</div>
+<!--e 图片地址-->
+
+<!--e 浮层-->
 <div class="tool-wrap" ng-controller="MainCtrl">
   <div class="tool-wrap" ng-controller="toolCtrl">tool</div>
-  <div class="layer-wrap" ng-controller="layerCtrl">
+  <div class="layer-wrap" ng-controller="layerCtrl" style="padding: 10px;border-top: 3px solid #cfcfcf">
     layer:<br>
     <div class="layer-info" ng-repeat="layer in layers">
       图层id{{layer.layerId}}<br>
@@ -8,14 +170,20 @@
       图层类型{{layer.layerType}}
     </div>
   </div>
-  <div class="frame-wrap" ng-controller="frameCtrl">
-    layer:<br>
+  <div class="frame-wrap" ng-controller="frameCtrl" style="padding: 10px;border-top: 3px solid #cfcfcf">
+    frame:<br>
     <div class="frame-info" ng-repeat="frame in frames">
       帧id{{frame.frameId}}<br>
       帧时间{{frame.timestamp}}<br>
       帧内容{{frame.frameContent}}
     </div>
   </div>
-  <div class="symbol-wrap" ng-controller="symbolCtrl">symbol</div>
+  <div class="symbol-wrap" ng-controller="symbolCtrl" style="padding: 10px;border-top: 3px solid #cfcfcf">
+    symbol:<br>
+    <div class="symbol-info" ng-repeat="symbol in symbols">
+      元件id:{{symbol.symbolId}}<br>
+      元件内容:{{symbol.symbolContent}}<br>
+    </div>
+  </div>
   <div class="edit-wrap" ng-controller="editCtrl">edit</div>
 </div>
