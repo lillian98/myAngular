@@ -84,23 +84,23 @@
         <!--e 时间刻度-->
       </div>
       <div class="time-area">
-        <div class="left-area" ng-controller="layerCtrl">
+        <div class="left-area">
           <!--s 层-->
-          <div ng-repeat="layer in layers">
-            <div class="layer-contrl" id="layerRow{{layer.layerId}}">
+
+            <div class="layer-contrl" id="layerRow{{layer.layerId}}" ng-repeat="layer in layers" data-index="{{layer.layerId}}" ng-click="chooseLayer({{layer.layerId-1}})">
               <img src="images/layer.png">
               <div><input type="text" value="{{layer.layerName}}"></div>
               <a href="#nolink" class=""></a>
               <a href="#nolink" class=""></a>
             </div>
-          </div>
+
           <!--e 层-->
 
         </div>
-        <div class="right-area" ng-controller="frameCtrl">
+        <div class="right-area">
           <!--s 帧控制-->
           <div class="frame">
-            <div ng-repeat="layer in layers">
+            <div ng-repeat="layer in layers" on-finish-render-filters>
               <div class="frame-contrl" id="dataRow{{layer.layerId}}">
                 <span ng-repeat="n in [] | range:501" id="{{layer.layerId}}_{{n}}"></span>
               </div>
@@ -162,7 +162,7 @@
 <!--e 浮层-->
 <div class="tool-wrap" ng-controller="MainCtrl">
   <div class="tool-wrap" ng-controller="toolCtrl">tool</div>
-  <div class="layer-wrap" ng-controller="layerCtrl" style="padding: 10px;border-top: 3px solid #cfcfcf">
+  <div class="layer-wrap"  style="padding: 10px;border-top: 3px solid #cfcfcf">
     layer:<br>
     <div class="layer-info" ng-repeat="layer in layers">
       图层id{{layer.layerId}}<br>
@@ -170,7 +170,7 @@
       图层类型{{layer.layerType}}
     </div>
   </div>
-  <div class="frame-wrap" ng-controller="frameCtrl" style="padding: 10px;border-top: 3px solid #cfcfcf">
+  <div class="frame-wrap" style="padding: 10px;border-top: 3px solid #cfcfcf">
     frame:<br>
     <div class="frame-info" ng-repeat="frame in frames">
       帧id{{frame.frameId}}<br>
@@ -178,7 +178,7 @@
       帧内容{{frame.frameContent}}
     </div>
   </div>
-  <div class="symbol-wrap" ng-controller="symbolCtrl" style="padding: 10px;border-top: 3px solid #cfcfcf">
+  <div class="symbol-wrap"  style="padding: 10px;border-top: 3px solid #cfcfcf">
     symbol:<br>
     <div class="symbol-info" ng-repeat="symbol in symbols">
       元件id:{{symbol.symbolId}}<br>
