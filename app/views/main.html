@@ -77,7 +77,7 @@
         <!--s 时间刻度-->
         <div class="timeline-numb-show">
           <div class="time-numb" >
-            <span ng-repeat="n in [] | range:101">{{n*5}}</span>
+            <span ng-repeat="n in [] | range:101">{{(n)*5}}</span>
           </div>
 
         </div>
@@ -102,7 +102,7 @@
           <div class="frame">
             <div ng-repeat="layer in layers" on-finish-render-filters>
               <div class="frame-contrl" id="dataRow{{layer.layerId}}">
-                <span ng-repeat="n in [] | range:501" id="{{layer.layerId}}_{{n}}"></span>
+                <span ng-repeat="n in [] | range:501" id="{{layer.layerId}}_{{n}}" ng-click="showCur({{layer.layerId}},{{n}})"></span>
               </div>
               </div>
           </div>
@@ -129,13 +129,19 @@
     <!--s 画布-->
     <div class="my-canvas">
       <!-- S 添加的元件 -->
-      <div class="stage">
-
+      <div class="stage" >
+        <div class="stage-wrap" id="stageWrap{{$index+1}}" ng-repeat="symbol in symbols">
+          <div class="symbolWrap" ng-repeat="childSymbol in symbol |filter:{'symbolType':0}" data-left="{{childSymbol.posLeft}}" data-top="{{childSymbol.posTop}}" data-scaleX="{{childSymbol.scaleX}}" data-scaleY="{{childSymbol.scaleY}}" data-scaleZ="{{childSymbol.scaleZ}}" data-skewX="{{childSymbol.skewX}}" data-skewY="{{childSymbol.skewY}}" data-rotateX="{{childSymbol.rotateX}}" data-rotateY="{{childSymbol.rotateY}}" data-opacity="{{childSymbol.opacity}}" data-origin="{{childSymbol.origin}}" data-frame="{{childSymbol.frameId}}">{{childSymbol.symbolContent}}</div>
+          <div class="symbolWrap" ng-repeat="childSymbol in symbol |filter:{'symbolType':1}" data-left="{{childSymbol.posLeft}}" data-top="{{childSymbol.posTop}}" data-scaleX="{{childSymbol.scaleX}}" data-scaleY="{{childSymbol.scaleY}}" data-scaleZ="{{childSymbol.scaleZ}}" data-skewX="{{childSymbol.skewX}}" data-skewY="{{childSymbol.skewY}}" data-rotateX="{{childSymbol.rotateX}}" data-rotateY="{{childSymbol.rotateY}}" data-opacity="{{childSymbol.opacity}}" data-origin="{{childSymbol.origin}}" data-frame="{{childSymbol.frameId}}"><img src="{{childSymbol.symbolContent}}"></div>
+        </div>
       </div>
       <!-- E 添加的元件 -->
       <!-- S 透明操作层：当图层被锁定或不可见时改变层级 -->
       <div class="stage-operate">
-
+        <div class="stage-wrap" id="stageOWrap{{$index+1}}" ng-repeat="symbol in symbols">
+          <div class="symbolWrap" ng-repeat="childSymbol in symbol |filter:{'symbolType':0}"><div data-left="{{childSymbol.posLeft}}" data-top="{{childSymbol.posTop}}" data-scaleX="{{childSymbol.scaleX}}" data-scaleY="{{childSymbol.scaleY}}" data-scaleZ="{{childSymbol.scaleZ}}" data-skewX="{{childSymbol.skewX}}" data-skewY="{{childSymbol.skewY}}" data-rotateX="{{childSymbol.rotateX}}" data-rotateY="{{childSymbol.rotateY}}" data-opacity="{{childSymbol.opacity}}" data-origin="{{childSymbol.origin}}" data-frame="{{childSymbol.frameId}}">{{childSymbol.symbolContent}}</div></div>
+          <div class="symbolWrap" ng-repeat="childSymbol in symbol |filter:{'symbolType':1}"><div data-left="{{childSymbol.posLeft}}" data-top="{{childSymbol.posTop}}" data-scaleX="{{childSymbol.scaleX}}" data-scaleY="{{childSymbol.scaleY}}" data-scaleZ="{{childSymbol.scaleZ}}" data-skewX="{{childSymbol.skewX}}" data-skewY="{{childSymbol.skewY}}" data-rotateX="{{childSymbol.rotateX}}" data-rotateY="{{childSymbol.rotateY}}" data-opacity="{{childSymbol.opacity}}" data-origin="{{childSymbol.origin}}" data-frame="{{childSymbol.frameId}}"><img src="{{childSymbol.symbolContent}}"></div></div>
+        </div>
       </div>
       <!-- E 透明操作层：当图层被锁定或不可见时改变层级 -->
       <!-- S 其他图层的参考，置于最底层不可操作 -->

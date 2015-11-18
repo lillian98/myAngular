@@ -150,6 +150,8 @@ body {
 .stage{background-color: #fff;}
 .stage1{background:none;}
 .stage div,.stage1 div{position: absolute;}
+.stage-wrap,.symbolWrap{display: none;}
+.stage-wrap.current,.symbolWrap.current{display: block}
 
 .attr-area{*zoom:1;}
 .attr-area:after{display:block; content:"clear"; height:0; clear:both; overflow:hidden; visibility:hidden;}
