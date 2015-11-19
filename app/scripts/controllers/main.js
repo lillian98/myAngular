@@ -21,20 +21,20 @@ angular.module('myAngularApp')
     //测试数据
     $scope.layers = [
       {'layerId':0,'layerName':'图层0','layerType':'0','frames':[
-        {'frameId':0,'layerId':1,'timestamp':10,'symbolType':'0','type':'0','frameContent':'text1','posLeft':0,'posTop':100,'symbols':[
-          {'symbolId':0,'frameId':0,'symbolType':0,'symbolContent':'text1','posLeft':10,'posTop':0,'scaleX':1,'scaleY':1,'scaleZ':1,'skewX':1,'skewY':1,'rotateX':0,'rotateY':0,'opacity':1,'origin':'50% 50%'}
+        {'frameId':0,'layerId':1,'timestamp':1,'symbolType':'0','type':'1','frameContent':'https://www.baidu.com/img/bd_logo1.png','posLeft':0,'posTop':100,'symbols':[
+          {'symbolId':0,'frameId':0,'symbolType':1,'symbolContent':'https://www.baidu.com/img/bd_logo1.png','posLeft':10,'posTop':0,'scaleX':1,'scaleY':1,'scaleZ':1,'skewX':1,'skewY':1,'rotateX':0,'rotateY':0,'opacity':1,'origin':'50% 50%'}
         ]},
         {'frameId':1,'layerId':1,'timestamp':30,'symbolType':'1','type':'1','frameContent':'https://www.baidu.com/img/bd_logo1.png','posLeft':50,'posTop':200,'symbols':[
           {'symbolId':1,'frameId':1,'symbolType':1,'symbolContent':'https://www.baidu.com/img/bd_logo1.png','posLeft':0,'posTop':0,'scaleX':1,'scaleY':1,'scaleZ':1,'skewX':1,'skewY':1,'rotateX':0,'rotateY':0,'opacity':1,'origin':'50% 50%'}
         ]},
-        {'frameId':2,'layerId':1,'timestamp':80,'symbolType':'1','type':'0','frameContent':'https://www.baidu.com/img/bd_logo1.png','posLeft':50,'posTop':200,'symbols':[
+        {'frameId':2,'layerId':1,'timestamp':80,'symbolType':'1','type':'1','frameContent':'https://www.baidu.com/img/bd_logo1.png','posLeft':50,'posTop':200,'symbols':[
           {'symbolId':2,'frameId':2,'symbolType':1,'symbolContent':'https://www.baidu.com/img/bd_logo1.png','posLeft':0,'posTop':0,'scaleX':1,'scaleY':1,'scaleZ':1,'skewX':1,'skewY':1,'rotateX':0,'rotateY':0,'opacity':1,'origin':'50% 50%'}
         ]}
       ]},
       {'layerId':1,'layerName':'图层1','layerType':'1','frames':[
-        {'frameId':3,'layerId':2,'timestamp':20,'symbolType':'2','type':'1','frameContent':'frameMc','posLeft':0,'posTop':0,'symbols':[
+        {'frameId':3,'layerId':2,'timestamp':1,'symbolType':'2','type':'1','frameContent':'frameMc','posLeft':0,'posTop':0,'symbols':[
           {'symbolId':3,'frameId':3,'symbolType':0,'symbolContent':'text1','posLeft':0,'posTop':0,'scaleX':1,'scaleY':1,'scaleZ':1,'skewX':1,'skewY':1,'rotateX':0,'rotateY':0,'opacity':1,'origin':'50% 50%'},
-          {'symbolId':4,'frameId':3,'symbolType':1,'symbolContent':'https://www.baidu.com/img/bd_logo1.png','posLeft':0,'posTop':0,'scaleX':1,'scaleY':1,'scaleZ':1,'skewX':1,'skewY':1,'rotateX':0,'rotateY':0,'opacity':1,'origin':'50% 50%'}
+          {'symbolId':4,'frameId':3,'symbolType':1,'symbolContent':'http://misc.360buyimg.com/lib/img/e/logo-201305.png','posLeft':0,'posTop':0,'scaleX':1,'scaleY':1,'scaleZ':1,'skewX':1,'skewY':1,'rotateX':0,'rotateY':0,'opacity':1,'origin':'50% 50%'}
         ]}
       ]},
       {'layerId':2,'layerName':'图层2','layerType':'2','frames':[
@@ -46,10 +46,13 @@ angular.module('myAngularApp')
     $scope.symbols = [];
     $scope.curTime = 0;
     $scope.curFrameIndex = 0;
+    $scope.testShow = false;
+    $scope.canShowFrame = false;
+    $scope.canShowSymbol = false;
+    $scope.curSymbol = {};
+    $scope.curLayer = {};
     //初始化
     $scope.init = function () {
-      this.canShowFrame = false;
-      this.canShowSymbol = false;
       //初始化新建图层0、帧0@fixme
       this.newLayer();
       this.newFrame();
@@ -99,7 +102,7 @@ angular.module('myAngularApp')
         }
         $scope.symbols.push(tmpSymbol)
       }
-      console.log('1111',$scope.symbols)
+      //console.log('1111',$scope.symbols)
     }
     //选中图层
     $scope.chooseLayer = function(_index){
@@ -121,18 +124,20 @@ angular.module('myAngularApp')
     $scope.insetEmptyKeyFrame = function () {
 
     }
-    //显示当前画布状态
+    //显示当前画布状态,layer从0开始，timestamp从1开始
     $scope.showCur = function(_layer,_timestamp){
       $scope.curTime =_timestamp;
       //图层状态
       $('.layer-contrl').removeClass('layer-choice');
       $('.layer-contrl').eq(_layer).addClass('layer-choice');
+      $scope.curLayer = $scope.layers[_layer];
       //帧状态
       $('.frame-contrl span').removeClass('current');
       $('.frame-contrl').eq(_layer).find('span').eq(_timestamp-1).addClass('current');
       //元件状态
       $('.stage-wrap').removeClass('current');
       $('.stage-wrap').eq(_layer).addClass('current');
+      $('.stage-operate .stage-wrap').eq(_layer).addClass('current');
       for(var i = $scope.frames[_layer].length-1;i>=0;i--){
         if($scope.frames[_layer][0].timestamp > _timestamp){
           $scope.curFrameIndex = -1;
@@ -143,11 +148,26 @@ angular.module('myAngularApp')
           break;
         }
       }
+      $scope.canShowFrame = true;
+      $scope.canShowSymbol = false;
       var attrFrameId = $scope.curFrameIndex;
       $('.stage-wrap.current .symbolWrap').removeClass('current');
       if(attrFrameId != -1){
         $('.stage-wrap.current .symbolWrap[data-frame='+attrFrameId+']').addClass('current');
       }
+    }
+    //显示当前元件面板
+    $scope.showCurSymbolAttr = function(_id){
+      $scope.canShowSymbol = true;
+      $scope.canShowFrame = false;
+      console.log('111111',$scope.curLayer.layerId,$scope.symbols[$scope.curLayer.layerId]);
+      $scope.symbols[$scope.curLayer.layerId].forEach(function(i,k){
+        console.log('22222',$scope.symbols[$scope.curLayer.layerId][k],i[k]);
+        if(i.symbolId == _id){
+          $scope.curSymbol = i;
+        }
+      });
+      console.log('111',_id,$scope.curSymbol);
     }
     $scope.setScreenHeight = function(){
       //屏幕高宽----------------------------------------------------------------------------
@@ -164,7 +184,7 @@ angular.module('myAngularApp')
     $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
       //$scope.chooseLayer(0);//默认选中第一个图层
       $scope.anaFrame();//将frame状态显示出来
-      $scope.showCur(0,0);//显示当前的画布状态：图层、时间确定当前元件
+      $scope.showCur(0,1);//显示当前的画布状态：图层、时间确定当前元件
     });
     //时间轴滑动@fixme
     //比例
