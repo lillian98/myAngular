@@ -133,7 +133,7 @@ body {
 .frame-slide{width: 510px;height:20px;background-color: #999;float: left;margin-left: 8px;margin-top: 4px;position: relative;}
 .frame-slide div{position: absolute;width: 20px;height:20px;background: #eee;cursor: pointer;box-shadow: 2px 2px 3px #333;}
 
-.attr-wrap{width: 200px;display: none;}
+.attr-wrap{width: 200px;}
 .time-contrl{-webkit-user-select:none;-moz-user-select:none; }
 
 .frame-contrl span.current{background-color: #66f;}
@@ -146,7 +146,10 @@ body {
 .time-contrl,.time-line{position: relative;z-index: 10;}
 
 .my-canvas{width: 100%;height: 100%;position: relative;top:0;left:0;background: #bbb;z-index: 1;}
-.stage,.stage1{width: 640px;height: 1008px;position: absolute;left: 50%;margin-left: -320px;}
+.stage,.stage-operate,.stage-reference{width: 640px;height: 1008px;position: absolute;left: 50%;margin-left: -320px;top:10px;}
+.stage-reference{z-index: 10;}
+.stage-operate{z-index: 30;}
+.stage{z-index: 20;}
 .stage{background-color: #fff;}
 .stage1{background:none;}
 .stage div,.stage1 div{position: absolute;}

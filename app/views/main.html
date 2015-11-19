@@ -1,6 +1,6 @@
 <div class="full-screen" ng-controller="MainCtrl">
   <!--s 顶部按钮-->
-  <div class="top-bar">
+  <div class="top-bar" ng-show="testShow">
     <a href="#nolink" ng-click="newFile()">新建</a>
     <a href="#nolink" ng-click="openFile()">打开</a>
     <a href="#nolink" ng-click="saveFile()">保存</a>
@@ -53,16 +53,50 @@
       <div class="attr-area">
         <div class="attr-title">元件属性</div>
         <div class="attr-value">
-          <p>元件: <span id="symbol_from_layer"></span></p>
-          <p>帧: <span id="symbol_frame"></span></p>
+          <p>帧: {{curSymbol.frame}}</p>
+          <p>元件ID：{{curSymbol.symbolId}}</p>
+          <p>元件内容：{{curSymbol.symbolContent}}</p>
+          <p>元件类型：{{curSymbol.symbolType}}</p>
+        </div>
+        <div class="attr-area">
+          <div class="attr-title">元件坐标</div>
+          <div class="attr-value">
+            <p>X：{{curSymbol.posLeft}}</p>
+            <p>Y：{{curSymbol.posTop}}</p>
+          </div>
+        </div>
+        <div class="attr-area">
+          <div class="attr-title">元件缩放</div>
+          <div class="attr-value">
+            <p>scaleX：{{curSymbol.scaleX}}</p>
+            <p>scaleY：{{curSymbol.scaleY}}</p>
+            <p>scaleZ：{{curSymbol.scaleZ}}</p>
+          </div>
+        </div>
+        <div class="attr-area">
+          <div class="attr-title">元件偏移</div>
+          <div class="attr-value">
+            <p>skewX：{{curSymbol.skewX}}</p>
+            <p>skewY：{{curSymbol.skewY}}</p>
+            <p>skewZ：{{curSymbol.skewZ}}</p>
+          </div>
+        </div>
+        <div class="attr-area">
+          <div class="attr-title">元件旋转</div>
+          <div class="attr-value">
+            <p>rotateX：{{curSymbol.rotateX}}</p>
+            <p>rotateY：{{curSymbol.rotateY}}</p>
+            <p>rotateZ：{{curSymbol.rotateZ}}</p>
+          </div>
+        </div>
+        <div class="attr-area">
+          <div class="attr-title">其他</div>
+          <div class="attr-value">
+            <p>opacity：{{curSymbol.opacity}}</p>
+            <p>animate-origin：{{curSymbol.origin}}</p>
+          </div>
         </div>
       </div>
-      <div class="attr-area">
-        <div class="attr-title">帧操作</div>
-        <a href="#nolink" id="">插入帧</a>
-        <a href="#nolink" id="">删除帧</a>
-      </div>
-
     </div>
     <!--e 元件属性-->
   </div>
@@ -138,9 +172,9 @@
       <!-- E 添加的元件 -->
       <!-- S 透明操作层：当图层被锁定或不可见时改变层级 -->
       <div class="stage-operate">
-        <div class="stage-wrap" id="stageOWrap{{$index+1}}" ng-repeat="symbol in symbols">
-          <div class="symbolWrap" ng-repeat="childSymbol in symbol |filter:{'symbolType':0}"><div data-left="{{childSymbol.posLeft}}" data-top="{{childSymbol.posTop}}" data-scaleX="{{childSymbol.scaleX}}" data-scaleY="{{childSymbol.scaleY}}" data-scaleZ="{{childSymbol.scaleZ}}" data-skewX="{{childSymbol.skewX}}" data-skewY="{{childSymbol.skewY}}" data-rotateX="{{childSymbol.rotateX}}" data-rotateY="{{childSymbol.rotateY}}" data-opacity="{{childSymbol.opacity}}" data-origin="{{childSymbol.origin}}" data-frame="{{childSymbol.frameId}}">{{childSymbol.symbolContent}}</div></div>
-          <div class="symbolWrap" ng-repeat="childSymbol in symbol |filter:{'symbolType':1}"><div data-left="{{childSymbol.posLeft}}" data-top="{{childSymbol.posTop}}" data-scaleX="{{childSymbol.scaleX}}" data-scaleY="{{childSymbol.scaleY}}" data-scaleZ="{{childSymbol.scaleZ}}" data-skewX="{{childSymbol.skewX}}" data-skewY="{{childSymbol.skewY}}" data-rotateX="{{childSymbol.rotateX}}" data-rotateY="{{childSymbol.rotateY}}" data-opacity="{{childSymbol.opacity}}" data-origin="{{childSymbol.origin}}" data-frame="{{childSymbol.frameId}}"><img src="{{childSymbol.symbolContent}}"></div></div>
+        <div class="stage-wrap" id="stageOperateWrap{{$index+1}}" ng-repeat="symbol in symbols">
+          <div class="symbolWrap" ng-repeat="childSymbol in symbol |filter:{'symbolType':0}" data-left="{{childSymbol.posLeft}}" data-top="{{childSymbol.posTop}}" data-scaleX="{{childSymbol.scaleX}}" data-scaleY="{{childSymbol.scaleY}}" data-scaleZ="{{childSymbol.scaleZ}}" data-skewX="{{childSymbol.skewX}}" data-skewY="{{childSymbol.skewY}}" data-rotateX="{{childSymbol.rotateX}}" data-rotateY="{{childSymbol.rotateY}}" data-opacity="{{childSymbol.opacity}}" data-origin="{{childSymbol.origin}}" data-frame="{{childSymbol.frameId}}" ng-click="showCurSymbolAttr({{childSymbol.symbolId}})">{{childSymbol.symbolContent}}</div>
+          <div class="symbolWrap" ng-repeat="childSymbol in symbol |filter:{'symbolType':1}" data-left="{{childSymbol.posLeft}}" data-top="{{childSymbol.posTop}}" data-scaleX="{{childSymbol.scaleX}}" data-scaleY="{{childSymbol.scaleY}}" data-scaleZ="{{childSymbol.scaleZ}}" data-skewX="{{childSymbol.skewX}}" data-skewY="{{childSymbol.skewY}}" data-rotateX="{{childSymbol.rotateX}}" data-rotateY="{{childSymbol.rotateY}}" data-opacity="{{childSymbol.opacity}}" data-origin="{{childSymbol.origin}}" data-frame="{{childSymbol.frameId}}" ng-click="showCurSymbolAttr({{childSymbol.symbolId}})"><img src="{{childSymbol.symbolContent}}"></div>
         </div>
       </div>
       <!-- E 透明操作层：当图层被锁定或不可见时改变层级 -->
@@ -166,7 +200,7 @@
 <!--e 图片地址-->
 
 <!--e 浮层-->
-<div class="tool-wrap" ng-controller="MainCtrl">
+<!--<div class="tool-wrap" ng-controller="MainCtrl">
   <div class="tool-wrap" ng-controller="toolCtrl">tool</div>
   <div class="layer-wrap"  style="padding: 10px;border-top: 3px solid #cfcfcf">
     layer:<br>
@@ -192,4 +226,4 @@
     </div>
   </div>
   <div class="edit-wrap" ng-controller="editCtrl">edit</div>
-</div>
+</div>-->
