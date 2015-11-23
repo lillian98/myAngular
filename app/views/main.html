@@ -24,8 +24,8 @@
       <div class="attr-area">
         <div class="attr-title">帧属性</div>
         <div class="attr-value">
-          <p>图层: <span id="frame_from_layer"></span></p>
-          <p>帧: <span id="frame_number"></span></p>
+          <p>图层: <span id="frame_from_layer">{{curLayer.layerId}}</span></p>
+          <p>帧: <span id="frame_number">{{curLayer.frames[curFrameIndex].frameId}}</span></p>
         </div>
       </div>
       <div class="attr-area">
@@ -53,47 +53,46 @@
       <div class="attr-area">
         <div class="attr-title">元件属性</div>
         <div class="attr-value">
-          <p>帧: {{curSymbol.frame}}</p>
+          <p>帧: {{curSymbol.frameId}}</p>
           <p>元件ID：{{curSymbol.symbolId}}</p>
-          <p>元件内容：{{curSymbol.symbolContent}}</p>
+          <p class="attr-content-{{curSymbol.symbolType}}">元件内容：<span>{{curSymbol.symbolContent}}</span><img src="{{curSymbol.symbolContent}}" alt=""  height="100"/></p>
           <p>元件类型：{{curSymbol.symbolType}}</p>
         </div>
         <div class="attr-area">
           <div class="attr-title">元件坐标</div>
           <div class="attr-value">
-            <p>X：{{curSymbol.posLeft}}</p>
-            <p>Y：{{curSymbol.posTop}}</p>
+            <p>X：<input type="text" value="{{curSymbol.posLeft}} |number:0" ng-change="symbolChange(this)" ng-model="curSymbol.posLeft"/></p>
+            <p>Y：<input type="text" value="{{curSymbol.posTop}}" ng-change="symbolChange(this)" ng-model="curSymbol.posTop"/></p>
           </div>
         </div>
         <div class="attr-area">
           <div class="attr-title">元件缩放</div>
           <div class="attr-value">
-            <p>scaleX：{{curSymbol.scaleX}}</p>
-            <p>scaleY：{{curSymbol.scaleY}}</p>
-            <p>scaleZ：{{curSymbol.scaleZ}}</p>
+            <p>scaleX：<input type="text" value="{{curSymbol.scaleX}}" ng-change="symbolChange(this)" ng-model="curSymbol.scaleX"/></p>
+            <p>scaleY：<input type="text" value="{{curSymbol.scaleY}}" ng-change="symbolChange(this)" ng-model="curSymbol.scaleY"/></p>
+            <p>scaleZ：<input type="text" value="{{curSymbol.scaleZ}}" ng-change="symbolChange(this)" ng-model="curSymbol.scaleZ"/></p>
           </div>
         </div>
         <div class="attr-area">
           <div class="attr-title">元件偏移</div>
           <div class="attr-value">
-            <p>skewX：{{curSymbol.skewX}}</p>
-            <p>skewY：{{curSymbol.skewY}}</p>
-            <p>skewZ：{{curSymbol.skewZ}}</p>
+            <p>skewX：<input type="text" value="{{curSymbol.skewX}}" ng-change="symbolChange(this)" ng-model="curSymbol.skewX"/></p>
+            <p>skewY：<input type="text" value="{{curSymbol.skewY}}" ng-change="symbolChange(this)" ng-model="curSymbol.skewY"/></p>
           </div>
         </div>
         <div class="attr-area">
           <div class="attr-title">元件旋转</div>
           <div class="attr-value">
-            <p>rotateX：{{curSymbol.rotateX}}</p>
-            <p>rotateY：{{curSymbol.rotateY}}</p>
-            <p>rotateZ：{{curSymbol.rotateZ}}</p>
+            <p>rotateX：<input type="text" value="{{curSymbol.rotateX}}" ng-change="symbolChange(this)" ng-model="curSymbol.rotateX"/></p>
+            <p>rotateY：<input type="text" value="{{curSymbol.rotateY}}" ng-change="symbolChange(this)" ng-model="curSymbol.rotateY"/></p>
+            <p>rotateZ：<input type="text" value="{{curSymbol.rotateZ}}" ng-change="symbolChange(this)" ng-model="curSymbol.rotateZ"/></p>
           </div>
         </div>
         <div class="attr-area">
           <div class="attr-title">其他</div>
           <div class="attr-value">
-            <p>opacity：{{curSymbol.opacity}}</p>
-            <p>animate-origin：{{curSymbol.origin}}</p>
+            <p>opacity：<input type="text" value="{{curSymbol.opacity}}" ng-change="symbolChange(this)" ng-model="curSymbol.opacity"/></p>
+            <p>animate-origin：<input type="text" value="{{curSymbol.origin}}" ng-change="symbolChange(this)" ng-model="curSymbol.origin"/></p>
           </div>
         </div>
       </div>
@@ -165,22 +164,24 @@
       <!-- S 添加的元件 -->
       <div class="stage" >
         <div class="stage-wrap" id="stageWrap{{$index+1}}" ng-repeat="symbol in symbols">
-          <div class="symbolWrap" ng-repeat="childSymbol in symbol |filter:{'symbolType':0}" data-left="{{childSymbol.posLeft}}" data-top="{{childSymbol.posTop}}" data-scaleX="{{childSymbol.scaleX}}" data-scaleY="{{childSymbol.scaleY}}" data-scaleZ="{{childSymbol.scaleZ}}" data-skewX="{{childSymbol.skewX}}" data-skewY="{{childSymbol.skewY}}" data-rotateX="{{childSymbol.rotateX}}" data-rotateY="{{childSymbol.rotateY}}" data-opacity="{{childSymbol.opacity}}" data-origin="{{childSymbol.origin}}" data-frame="{{childSymbol.frameId}}">{{childSymbol.symbolContent}}</div>
-          <div class="symbolWrap" ng-repeat="childSymbol in symbol |filter:{'symbolType':1}" data-left="{{childSymbol.posLeft}}" data-top="{{childSymbol.posTop}}" data-scaleX="{{childSymbol.scaleX}}" data-scaleY="{{childSymbol.scaleY}}" data-scaleZ="{{childSymbol.scaleZ}}" data-skewX="{{childSymbol.skewX}}" data-skewY="{{childSymbol.skewY}}" data-rotateX="{{childSymbol.rotateX}}" data-rotateY="{{childSymbol.rotateY}}" data-opacity="{{childSymbol.opacity}}" data-origin="{{childSymbol.origin}}" data-frame="{{childSymbol.frameId}}"><img src="{{childSymbol.symbolContent}}"></div>
+          <div class="symbolWrap" ng-repeat="childSymbol in symbol |filter:{'symbolType':0}" data-left="{{childSymbol.posLeft}}" data-top="{{childSymbol.posTop}}" data-scaleX="{{childSymbol.scaleX}}" data-scaleY="{{childSymbol.scaleY}}" data-scaleZ="{{childSymbol.scaleZ}}" data-skewX="{{childSymbol.skewX}}" data-skewY="{{childSymbol.skewY}}" data-rotateX="{{childSymbol.rotateX}}" data-rotateY="{{childSymbol.rotateY}}" data-opacity="{{childSymbol.opacity}}" data-origin="{{childSymbol.origin}}" data-frame="{{childSymbol.frameId}}" style='left: {{childSymbol.posLeft}}px;top: {{childSymbol.posTop}}px;transform: scale3d({{childSymbol.scaleX}},{{childSymbol.scaleY}},{{childSymbol.scaleZ}}) rotateX({{childSymbol.rotateX}}deg) rotateY({{childSymbol.rotateY}}deg) skew({{childSymbol.skewX}}deg,{{childSymbol.skewY}}deg);width:{{childSymbol.symbolWidth}}px;height: {{childSymbol.symbolHeight}}px;opacity: {{childSymbol.opacity}}'>{{childSymbol.symbolContent}}</div>
+          <div class="symbolWrap" ng-repeat="childSymbol in symbol |filter:{'symbolType':1}" data-left="{{childSymbol.posLeft}}" data-top="{{childSymbol.posTop}}" data-scaleX="{{childSymbol.scaleX}}" data-scaleY="{{childSymbol.scaleY}}" data-scaleZ="{{childSymbol.scaleZ}}" data-skewX="{{childSymbol.skewX}}" data-skewY="{{childSymbol.skewY}}" data-rotateX="{{childSymbol.rotateX}}" data-rotateY="{{childSymbol.rotateY}}" data-opacity="{{childSymbol.opacity}}" data-origin="{{childSymbol.origin}}" data-frame="{{childSymbol.frameId}}" style='left: {{childSymbol.posLeft}}px;top: {{childSymbol.posTop}}px;transform: scale3d({{childSymbol.scaleX}},{{childSymbol.scaleY}},{{childSymbol.scaleZ}}) rotateX({{childSymbol.rotateX}}deg) rotateY({{childSymbol.rotateY}}deg) skew({{childSymbol.skewX}}deg,{{childSymbol.skewY}}deg);width:{{childSymbol.symbolWidth}}px;height: {{childSymbol.symbolHeight}}px;opacity: {{childSymbol.opacity}}'><img src="{{childSymbol.symbolContent}}"></div>
         </div>
       </div>
       <!-- E 添加的元件 -->
       <!-- S 透明操作层：当图层被锁定或不可见时改变层级 -->
       <div class="stage-operate">
         <div class="stage-wrap" id="stageOperateWrap{{$index+1}}" ng-repeat="symbol in symbols">
-          <div class="symbolWrap" ng-repeat="childSymbol in symbol |filter:{'symbolType':0}" data-left="{{childSymbol.posLeft}}" data-top="{{childSymbol.posTop}}" data-scaleX="{{childSymbol.scaleX}}" data-scaleY="{{childSymbol.scaleY}}" data-scaleZ="{{childSymbol.scaleZ}}" data-skewX="{{childSymbol.skewX}}" data-skewY="{{childSymbol.skewY}}" data-rotateX="{{childSymbol.rotateX}}" data-rotateY="{{childSymbol.rotateY}}" data-opacity="{{childSymbol.opacity}}" data-origin="{{childSymbol.origin}}" data-frame="{{childSymbol.frameId}}" ng-click="showCurSymbolAttr({{childSymbol.symbolId}})">{{childSymbol.symbolContent}}</div>
-          <div class="symbolWrap" ng-repeat="childSymbol in symbol |filter:{'symbolType':1}" data-left="{{childSymbol.posLeft}}" data-top="{{childSymbol.posTop}}" data-scaleX="{{childSymbol.scaleX}}" data-scaleY="{{childSymbol.scaleY}}" data-scaleZ="{{childSymbol.scaleZ}}" data-skewX="{{childSymbol.skewX}}" data-skewY="{{childSymbol.skewY}}" data-rotateX="{{childSymbol.rotateX}}" data-rotateY="{{childSymbol.rotateY}}" data-opacity="{{childSymbol.opacity}}" data-origin="{{childSymbol.origin}}" data-frame="{{childSymbol.frameId}}" ng-click="showCurSymbolAttr({{childSymbol.symbolId}})"><img src="{{childSymbol.symbolContent}}"></div>
+          <div class="symbolWrap" ng-repeat="childSymbol in symbol" data-left="{{childSymbol.posLeft}}" data-top="{{childSymbol.posTop}}" data-scaleX="{{childSymbol.scaleX}}" data-scaleY="{{childSymbol.scaleY}}" data-scaleZ="{{childSymbol.scaleZ}}" data-skewX="{{childSymbol.skewX}}" data-skewY="{{childSymbol.skewY}}" data-rotateX="{{childSymbol.rotateX}}" data-rotateY="{{childSymbol.rotateY}}" data-opacity="{{childSymbol.opacity}}" data-origin="{{childSymbol.origin}}" data-frame="{{childSymbol.frameId}}" ng-click="showCurSymbolAttr({{childSymbol.symbolId}})" style='left: {{childSymbol.posLeft}}px;top: {{childSymbol.posTop}}px;transform: scale3d({{childSymbol.scaleX}},{{childSymbol.scaleY}},{{childSymbol.scaleZ}}) rotateX({{childSymbol.rotateX}}deg) rotateY({{childSymbol.rotateY}}deg) skew({{childSymbol.skewX}}deg,{{childSymbol.skewY}}deg);width:{{childSymbol.symbolWidth}}px;height: {{childSymbol.symbolHeight}}px;opacity: {{childSymbol.opacity}}' ng-class="{'stage-wrap-opacity symbolWrap':{{childSymbol.opacity}}==0}"></div>
         </div>
       </div>
       <!-- E 透明操作层：当图层被锁定或不可见时改变层级 -->
       <!-- S 其他图层的参考，置于最底层不可操作 -->
       <div class="stage-reference">
-
+        <div class="stage-wrap" id="stageReferenceWrap{{$index+1}}" ng-repeat="symbol in symbols">
+          <div class="symbolWrap" ng-repeat="childSymbol in symbol |filter:{'symbolType':0}" data-left="{{childSymbol.posLeft}}" data-top="{{childSymbol.posTop}}" data-scaleX="{{childSymbol.scaleX}}" data-scaleY="{{childSymbol.scaleY}}" data-scaleZ="{{childSymbol.scaleZ}}" data-skewX="{{childSymbol.skewX}}" data-skewY="{{childSymbol.skewY}}" data-rotateX="{{childSymbol.rotateX}}" data-rotateY="{{childSymbol.rotateY}}" data-opacity="{{childSymbol.opacity}}" data-origin="{{childSymbol.origin}}" data-frame="{{childSymbol.frameId}}" data-timestamp="{{childSymbol.timestamp}}" style='left: {{childSymbol.posLeft}}px;top: {{childSymbol.posTop}}px;transform: scale3d({{childSymbol.scaleX}},{{childSymbol.scaleY}},{{childSymbol.scaleZ}}) rotateX({{childSymbol.rotateX}}deg) rotateY({{childSymbol.rotateY}}deg) skew({{childSymbol.skewX}}deg,{{childSymbol.skewY}}deg);width:{{childSymbol.symbolWidth}}px;height: {{childSymbol.symbolHeight}}px;opacity: {{childSymbol.opacity}}'>{{childSymbol.symbolContent}}</div>
+          <div class="symbolWrap" ng-repeat="childSymbol in symbol |filter:{'symbolType':1}" data-left="{{childSymbol.posLeft}}" data-top="{{childSymbol.posTop}}" data-scaleX="{{childSymbol.scaleX}}" data-scaleY="{{childSymbol.scaleY}}" data-scaleZ="{{childSymbol.scaleZ}}" data-skewX="{{childSymbol.skewX}}" data-skewY="{{childSymbol.skewY}}" data-rotateX="{{childSymbol.rotateX}}" data-rotateY="{{childSymbol.rotateY}}" data-opacity="{{childSymbol.opacity}}" data-origin="{{childSymbol.origin}}" data-frame="{{childSymbol.frameId}}" data-timestamp="{{childSymbol.timestamp}}" style='left: {{childSymbol.posLeft}}px;top: {{childSymbol.posTop}}px;transform: scale3d({{childSymbol.scaleX}},{{childSymbol.scaleY}},{{childSymbol.scaleZ}}) rotateX({{childSymbol.rotateX}}deg) rotateY({{childSymbol.rotateY}}deg) skew({{childSymbol.skewX}}deg,{{childSymbol.skewY}}deg);width:{{childSymbol.symbolWidth}}px;height: {{childSymbol.symbolHeight}}px;opacity: {{childSymbol.opacity}}'><img src="{{childSymbol.symbolContent}}"></div>
+        </div>
       </div>
       <!-- E 其他图层的参考，置于最底层不可操作 -->
     </div>

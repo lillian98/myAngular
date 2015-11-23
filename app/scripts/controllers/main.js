@@ -21,20 +21,20 @@ angular.module('myAngularApp')
     //测试数据
     $scope.layers = [
       {'layerId':0,'layerName':'图层0','layerType':'0','frames':[
-        {'frameId':0,'layerId':1,'timestamp':1,'symbolType':'0','type':'1','frameContent':'https://www.baidu.com/img/bd_logo1.png','posLeft':0,'posTop':100,'symbols':[
-          {'symbolId':0,'frameId':0,'symbolType':1,'symbolContent':'https://www.baidu.com/img/bd_logo1.png','posLeft':10,'posTop':0,'scaleX':1,'scaleY':1,'scaleZ':1,'skewX':1,'skewY':1,'rotateX':0,'rotateY':0,'opacity':1,'origin':'50% 50%'}
+        {'frameId':0,'layerId':1,'timestamp':1,'symbolType':'0','type':'1','frameContent':'https://www.baidu.com/img/bd_logo1.png','frameWidth':540,'frameHeight':258,'posLeft':0,'posTop':100,'symbols':[
+          {'symbolId':0,'frameId':0,'symbolType':1,'timestamp':1,'symbolContent':'https://www.baidu.com/img/bd_logo1.png','posLeft':'05','posTop':0,'scaleX':1,'scaleY':1,'scaleZ':1,'skewX':0,'skewY':0,'rotateX':0,'rotateY':0,'rotateZ':0,'opacity':0,'origin':'50% 50%','symbolWidth':540,'symbolHeight':258}
         ]},
-        {'frameId':1,'layerId':1,'timestamp':30,'symbolType':'1','type':'1','frameContent':'https://www.baidu.com/img/bd_logo1.png','posLeft':50,'posTop':200,'symbols':[
-          {'symbolId':1,'frameId':1,'symbolType':1,'symbolContent':'https://www.baidu.com/img/bd_logo1.png','posLeft':0,'posTop':0,'scaleX':1,'scaleY':1,'scaleZ':1,'skewX':1,'skewY':1,'rotateX':0,'rotateY':0,'opacity':1,'origin':'50% 50%'}
+        {'frameId':1,'layerId':1,'timestamp':30,'symbolType':'1','type':'1','frameContent':'https://www.baidu.com/img/bd_logo1.png','frameWidth':270,'frameHeight':60,'posLeft':50,'posTop':200,'symbols':[
+          {'symbolId':1,'frameId':1,'symbolType':1,'timestamp':30,'symbolContent':'https://www.baidu.com/img/bd_logo1.png','posLeft':40,'posTop':40,'scaleX':1.1,'scaleY':1.1,'scaleZ':1,'skewX':0,'skewY':0,'rotateX':0,'rotateY':0,'rotateZ':0,'opacity':.8,'origin':'50% 50%','symbolWidth':540,'symbolHeight':258}
         ]},
-        {'frameId':2,'layerId':1,'timestamp':80,'symbolType':'1','type':'1','frameContent':'https://www.baidu.com/img/bd_logo1.png','posLeft':50,'posTop':200,'symbols':[
-          {'symbolId':2,'frameId':2,'symbolType':1,'symbolContent':'https://www.baidu.com/img/bd_logo1.png','posLeft':0,'posTop':0,'scaleX':1,'scaleY':1,'scaleZ':1,'skewX':1,'skewY':1,'rotateX':0,'rotateY':0,'opacity':1,'origin':'50% 50%'}
+        {'frameId':2,'layerId':1,'timestamp':80,'symbolType':'1','type':'1','frameContent':'https://www.baidu.com/img/bd_logo1.png','frameWidth':270,'frameHeight':60,'posLeft':50,'posTop':200,'symbols':[
+          {'symbolId':2,'frameId':2,'symbolType':1,'timestamp':80,'symbolContent':'https://www.baidu.com/img/bd_logo1.png','posLeft':40,'posTop':40,'scaleX':1,'scaleY':1,'scaleZ':1,'skewX':1,'skewY':1,'rotateX':0,'rotateY':0,'rotateZ':0,'opacity':1,'origin':'50% 50%','symbolWidth':540,'symbolHeight':258}
         ]}
       ]},
       {'layerId':1,'layerName':'图层1','layerType':'1','frames':[
-        {'frameId':3,'layerId':2,'timestamp':1,'symbolType':'2','type':'1','frameContent':'frameMc','posLeft':0,'posTop':0,'symbols':[
-          {'symbolId':3,'frameId':3,'symbolType':0,'symbolContent':'text1','posLeft':0,'posTop':0,'scaleX':1,'scaleY':1,'scaleZ':1,'skewX':1,'skewY':1,'rotateX':0,'rotateY':0,'opacity':1,'origin':'50% 50%'},
-          {'symbolId':4,'frameId':3,'symbolType':1,'symbolContent':'http://misc.360buyimg.com/lib/img/e/logo-201305.png','posLeft':0,'posTop':0,'scaleX':1,'scaleY':1,'scaleZ':1,'skewX':1,'skewY':1,'rotateX':0,'rotateY':0,'opacity':1,'origin':'50% 50%'}
+        {'frameId':3,'layerId':2,'timestamp':1,'symbolType':'2','type':'1','frameContent':'frameMc','frameWidth':270,'frameHeight':60,'posLeft':0,'posTop':0,'symbols':[
+          {'symbolId':3,'frameId':3,'symbolType':0,'timestamp':1,'symbolContent':'text1','posLeft':0,'posTop':0,'scaleX':1,'scaleY':1,'scaleZ':1,'skewX':1,'skewY':1,'rotateX':0,'rotateY':0,'rotateZ':0,'opacity':1,'origin':'50% 50%','symbolWidth':29,'symbolHeight':12},
+          {'symbolId':4,'frameId':3,'symbolType':1,'timestamp':1,'symbolContent':'http://misc.360buyimg.com/lib/img/e/logo-201305.png','posLeft':0,'posTop':30,'scaleX':1,'scaleY':1,'scaleZ':1,'skewX':1,'skewY':1,'rotateX':0,'rotateY':0,'rotateZ':0,'opacity':1,'origin':'50% 50%','symbolWidth':270,'symbolHeight':60}
         ]}
       ]},
       {'layerId':2,'layerName':'图层2','layerType':'2','frames':[
@@ -42,15 +42,14 @@ angular.module('myAngularApp')
         ]}
       ]}
     ];
-    $scope.frames = [];
-    $scope.symbols = [];
-    $scope.curTime = 0;
+    $scope.frames = [];//帧数组（二维）按照图层分，包含元件信息
+    $scope.symbols = [];//元件数组（二维）按照图层分
+    $scope.curTime = 0;//用来筛选当前时间轴显示其他图层信息
     $scope.curFrameIndex = 0;
-    $scope.testShow = false;
     $scope.canShowFrame = false;
     $scope.canShowSymbol = false;
-    $scope.curSymbol = {};
-    $scope.curLayer = {};
+    $scope.curSymbol = {};//当前元件信息
+    $scope.curLayer = {};//当前图层信息
     //初始化
     $scope.init = function () {
       //初始化新建图层0、帧0@fixme
@@ -102,7 +101,6 @@ angular.module('myAngularApp')
         }
         $scope.symbols.push(tmpSymbol)
       }
-      //console.log('1111',$scope.symbols)
     }
     //选中图层
     $scope.chooseLayer = function(_index){
@@ -152,22 +150,22 @@ angular.module('myAngularApp')
       $scope.canShowSymbol = false;
       var attrFrameId = $scope.curFrameIndex;
       $('.stage-wrap.current .symbolWrap').removeClass('current');
+      $('.stage-reference .stage-wrap').removeClass('current');
       if(attrFrameId != -1){
         $('.stage-wrap.current .symbolWrap[data-frame='+attrFrameId+']').addClass('current');
+        $('.stage-reference .symbolWrap[data-timestamp='+_timestamp+']').addClass('current');
       }
     }
     //显示当前元件面板
     $scope.showCurSymbolAttr = function(_id){
       $scope.canShowSymbol = true;
       $scope.canShowFrame = false;
-      console.log('111111',$scope.curLayer.layerId,$scope.symbols[$scope.curLayer.layerId]);
+      //console.log('111111',$scope.curLayer.layerId,$scope.symbols[$scope.curLayer.layerId]);
       $scope.symbols[$scope.curLayer.layerId].forEach(function(i,k){
-        console.log('22222',$scope.symbols[$scope.curLayer.layerId][k],i[k]);
         if(i.symbolId == _id){
           $scope.curSymbol = i;
         }
       });
-      console.log('111',_id,$scope.curSymbol);
     }
     $scope.setScreenHeight = function(){
       //屏幕高宽----------------------------------------------------------------------------
@@ -186,6 +184,35 @@ angular.module('myAngularApp')
       $scope.anaFrame();//将frame状态显示出来
       $scope.showCur(0,1);//显示当前的画布状态：图层、时间确定当前元件
     });
+    //元件修改
+    $scope.symbolChange = function(_this){
+      console.log('symbolChage',$scope.curSymbol.symbolId);
+      var tFrame = {};
+      //更新元件素组
+      $scope.symbols[$scope.curLayer.layerId].forEach(function(k,i){
+        if(k.symbolId == $scope.curSymbol.symbolId){
+          i = $scope.curSymbol;
+        }
+      })
+      //更新帧数组
+      $scope.frames[$scope.curLayer.layerId].forEach(function(k,i){
+        if(k.frameId == $scope.curFrameIndex){
+          k.symbols.forEach(function(_k,_i){
+            if(_k.symbolId == $scope.curSymbol.symbolId){
+              _k = $scope.curSymbol;
+            }
+          })
+          tFrame = k;
+        }
+      })
+      //更新layer对象
+      $scope.layers[$scope.curLayer.layerId].frames.forEach(function(k,i){
+          if(k.frameId == $scope.curFrameIndex){
+            k = tFrame;
+          }
+      })
+      console.log('update layers',$scope.layers,'symbols',$scope.symbols,'frames',$scope.frames)
+    }
     //时间轴滑动@fixme
     //比例
     var framePercent;
@@ -234,23 +261,6 @@ angular.module('myAngularApp')
       }
     });
     //绑定键盘快捷键 End
-
-  })
-  .controller('layerCtrl',function($scope){
-
-
-  })
-  .controller('frameCtrl',function($scope){
-
-
-  })
-  .controller('toolCtrl',function($scope){
-
-  })
-  .controller('symbolCtrl',function($scope){
-
-
-  }).controller('editCtrl',function($scope){
 
   }).filter('range', function() {
   return function(input, total) {
