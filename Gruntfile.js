@@ -11,14 +11,15 @@ module.exports = function (grunt) {
 
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
-
+  require('gm');
   // Automatically load required Grunt tasks
   require('jit-grunt')(grunt, {
     useminPrepare: 'grunt-usemin',
     ngtemplates: 'grunt-angular-templates',
-    cdnify: 'grunt-google-cdn'
+    cdnify: 'grunt-google-cdn',
+    sprite: 'grunt-spritesmith'
   });
-
+  grunt.loadNpmTasks('grunt-sprite');
   // Configurable paths for the application
   var appConfig = {
     app: require('./bower.json').appPath || 'app',
@@ -54,6 +55,10 @@ module.exports = function (grunt) {
       },
       gruntfile: {
         files: ['Gruntfile.js']
+      },
+      sprite:{
+        files: ['<%= yeoman.app %>/slice/*.png'],
+        tasks: ['sprite']
       },
       livereload: {
         options: {
@@ -232,7 +237,7 @@ module.exports = function (grunt) {
         sassDir: '<%= yeoman.app %>/styles',
         cssDir: '.tmp/styles',
         generatedImagesDir: '.tmp/images/generated',
-        imagesDir: '<%= yeoman.app %>/images',
+        imagesDir: ['<%= yeoman.app %>/images','<%= yeoman.app %>/slice'],
         javascriptsDir: '<%= yeoman.app %>/scripts',
         fontsDir: '<%= yeoman.app %>/styles/fonts',
         importPath: './bower_components',
@@ -252,6 +257,15 @@ module.exports = function (grunt) {
         options: {
           sourcemap: true
         }
+      }
+    },
+
+    // Sprite
+    sprite:{
+      all: {
+        src: '<%= yeoman.app %>/slice/*.png',
+        dest: '<%= yeoman.app %>/images/sprite.png',
+        destCss: '.tmp/styles/sprites.css'
       }
     },
 
@@ -454,7 +468,7 @@ module.exports = function (grunt) {
     }
   });
 
-
+  grunt.loadNpmTasks('grunt-spritesmith');
   grunt.registerTask('serve', 'Compile then start a connect web server', function (target) {
     if (target === 'dist') {
       return grunt.task.run(['build', 'connect:dist:keepalive']);
@@ -466,6 +480,7 @@ module.exports = function (grunt) {
       'concurrent:server',
       'postcss:server',
       'connect:livereload',
+      'sprite',
       'watch'
     ]);
   });
@@ -491,6 +506,7 @@ module.exports = function (grunt) {
     'concurrent:dist',
     'postcss',
     'ngtemplates',
+    'sprite',
     'concat',
     'ngAnnotate',
     'copy:dist',
@@ -507,5 +523,9 @@ module.exports = function (grunt) {
     'newer:jscs',
     'test',
     'build'
+  ]);
+
+  grunt.registerTask('testsprite', [
+    'sprite'
   ]);
 };

@@ -11,10 +11,10 @@
   <!--e 场景-->
   <!--s 工具栏-->
   <div class="tool-bar">
-    <a id="toolChoice" href="#nolink" ng-click="toolChoose()"><img src="images/tool-1.jpg"/></a>
-    <a id="toolChange" href="#nolink" class="current" ng-click="toolTransform()"><img src="images/tool-2.jpg"/></a>
-    <a id="toolinsetPic" href="#nolink" ng-click="toolInsertPic()"><img src="images/tool-4.jpg"/></a>
-    <a id="toolText" href="#nolink" ng-click="toolInsertText()"><img src="images/tool-3.jpg"/></a>
+    <a id="toolChoice" href="#nolink" ng-click="toolChoose()"></a>
+    <a id="toolChange" href="#nolink" class="current" ng-click="toolTransform()"></a>
+    <a id="toolinsetPic" href="#nolink" ng-click="toolInsertPic()"></a>
+    <a id="toolText" href="#nolink" ng-click="toolInsertText()"></a>
   </div>
   <!--e 工具栏-->
   <!--s 属性-->
@@ -105,8 +105,8 @@
     <!--s 时间轴-->
     <div class="time-line">
       <div class="time-title">
-        <img style="margin:8px 8px 0 152px" src="images/eyes.png"/>
-        <img src="images/lock.png"/>
+        <span class="timeline-eyes"></span>
+        <span class="timeline-lock"></span>
         <!--s 时间刻度-->
         <div class="timeline-numb-show">
           <div class="time-numb" >
@@ -121,7 +121,7 @@
           <!--s 层-->
 
             <div class="layer-contrl" id="layerRow{{layer.layerId}}" ng-repeat="layer in layers" data-index="{{layer.layerId}}" ng-click="chooseLayer({{layer.layerId-1}})">
-              <img src="images/layer.png">
+              <span class="layer-icon"></span>
               <div><input type="text" value="{{layer.layerName}}"></div>
               <a href="#nolink" class=""></a>
               <a href="#nolink" class=""></a>
@@ -146,10 +146,10 @@
     <!--e 时间轴-->
     <!--s 时间轴控制-->
     <div class="time-contrl">
-      <a id="newLayer" href="#nolink"><img src="images/newlayer.png"/></a>
-      <a id="layerUp" href="#nolink"><img src="images/up.png"/></a>
-      <a id="layerDown" href="#nolink"><img src="images/down.png"/></a>
-      <a id="layerDelet" href="#nolink"><img src="images/delet.png"/></a>
+      <a id="newLayer" href="#nolink"></a>
+      <a id="layerUp" href="#nolink"></a>
+      <a id="layerDown" href="#nolink"></a>
+      <a id="layerDelet" href="#nolink"></a>
       <div style="float:left; margin-left:112px;">
         <a id="frameLeft" href="#nolink"><img src="images/left.png"/></a>
         <div class="frame-slide">

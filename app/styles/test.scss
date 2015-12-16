@@ -86,3 +86,17 @@
 .stage-reference .stage-wrap{opacity: .5;display: block}
 .attr-content-1 span{display: none;}
 .attr-content-0 img{display: none;}
+
+/*sprite*/
+#toolChoice{background-image:url(../slice/tool-1.jpg);width:25px;height:25px;}
+#toolChange{background-image:url(../slice/tool-2.jpg);width:25px;height:25px;}
+#toolinsetPic{background-image:url(../slice/tool-3.jpg);width:25px;height:25px;}
+#toolText{background-image:url(../slice/tool-4.jpg);width:25px;height:25px;}
+.timeline-eyes{margin:8px 8px 0 156px;background-image:url(../slice/eyes.png);width:10px;height:10px;display:inline-block}
+.timeline-lock{background-image:url(../slice/eyes.png);width:10px;height:10px;display:inline-block}
+.layer-icon{background-image:url(../slice/layer.png);width:10px;height:10px;margin:8px 8px 0 8px;float:left;display:block;}
+#newLayer{background-image:url(../slice/newlayer.png);width:10px;height:10px;}
+#layerUp{background-image:url(../slice/up.png);width:10px;height:10px;}
+#layerDown{background-image:url(../slice/down.png);width:10px;height:10px;}
+#layerDelet{background-image:url(../slice/delet.png);width:10px;height:10px;}
+
